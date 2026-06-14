@@ -442,11 +442,11 @@ function Install-Plugin {
     $client = [System.Net.Http.HttpClient]::new()
     $client.Timeout = [System.TimeSpan]::FromSeconds(60)
     $client.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0 (Luatools Installer)")
-    
+
     $stream = $client.GetStreamAsync($Link).Result
     $fileStream = [System.IO.File]::Create($zipPath)
     $stream.CopyTo($fileStream)
-    
+
     $fileStream.Close()
     $stream.Close()
     $client.Dispose()
@@ -531,13 +531,13 @@ else {
 
     _EnsureProperty $config "plugins" @{ enabledPlugins = @() }
     _EnsureProperty $config "plugins.enabledPlugins" @()
-    
+
     $pluginsList = @($config.plugins.enabledPlugins)
     if ($pluginsList -notcontains $name) {
         $pluginsList += $name
         $config.plugins.enabledPlugins = $pluginsList
     }
-    
+
     $config | ConvertTo-Json -Depth 10 | Set-Content $configPath -Encoding UTF8
 }
 
